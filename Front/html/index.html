@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoML</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <div class="progress">
+    <div class="step-dot active" id="dot-1"></div>
+    <div class="step-dot" id="dot-2"></div>
+    <div class="step-dot" id="dot-3"></div>
+    <div class="step-dot" id="dot-4"></div>
+    <span class="progress-label" id="progress-label">Upload</span>
+  </div>
+
+  <div class="card">
+    
+    <div class="step active" id="step-1">
+      <h2>Upload your dataset</h2>
+      
+      <form id="upload-form" onsubmit="handleUpload(event)">
+        <input type="file" id="file-input" name="file" accept=".csv,.xlsx,.xls" required style="margin-bottom: 1rem;"/>
+        <div id="upload-error" class="error" style="color: red; margin-bottom: 1rem;"></div>
+        <button type="submit" class="btn btn-primary" id="upload-btn">Upload</button>
+      </form>
+    </div>
+
+    <div class="step" id="step-2">
+      <h2>Preview</h2>
+      <div id="preview-table" class="table-wrap" style="margin-bottom: 1rem;"></div>
+      <button class="btn btn-primary" onclick="showStep(3)">Looks good, continue</button>
+      <button class="btn btn-ghost" onclick="resetApp()">Start over</button>
+    </div>
+
+    <div class="step" id="step-3">
+      <h2>Configure task</h2>
+      
+      <label class="field-label">Task type:</label>
+      <select id="task-select" style="margin-bottom: 1rem;" onchange="toggleTargetField()">
+        <option value="classification">Classification</option>
+        <option value="regression">Regression</option>
+        <option value="clustering">Clustering</option>
+      </select>
+
+      <div id="target-section">
+        <label class="field-label">Target column:</label>
+        <select id="target-select" style="margin-bottom: 1rem;"></select>
+      </div>
+
+      <div id="config-error" class="error" style="color: red;"></div>
+      <button class="btn btn-primary" onclick="startTraining()">Train model</button>
+      <button class="btn btn-ghost" onclick="showStep(2)">Back</button>
+    </div>
+
+    <div class="step" id="step-4">
+      <h2>Results</h2>
+      <div id="results-content"></div>
+      <button class="btn btn-ghost" onclick="resetApp()" style="margin-top: 1rem;">Start over</button>
+      <button class="btn btn-primary" onclick="saveModel()" style="margin-top: 1rem;">Download Pipeline</button>
+
+    </div>
+
+  </div>
+
+  <script src="../js/script.js"></script>
+</body>
+</html>
