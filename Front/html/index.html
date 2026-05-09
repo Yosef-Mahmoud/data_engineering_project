@@ -17,27 +17,33 @@
   </div>
 
   <div class="card">
-    
+
+    <!-- Step 1: Upload -->
     <div class="step active" id="step-1">
       <h2>Upload your dataset</h2>
-      
+      <p class="subtitle">Accepts .csv and .xlsx files</p>
       <form id="upload-form" onsubmit="handleUpload(event)">
-        <input type="file" id="file-input" name="file" accept=".csv,.xlsx,.xls" required style="margin-bottom: 1rem;"/>
-        <div id="upload-error" class="error" style="color: red; margin-bottom: 1rem;"></div>
+        <input type="file" id="file-input" name="file" accept=".csv,.xlsx,.xls" required
+               style="margin-bottom: 1rem;" />
+        <div id="upload-error" class="msg error" style="display:none;"></div>
         <button type="submit" class="btn btn-primary" id="upload-btn">Upload</button>
       </form>
     </div>
 
+    <!-- Step 2: Preview -->
     <div class="step" id="step-2">
       <h2>Preview</h2>
+      <p class="subtitle">First 5 rows of your dataset</p>
       <div id="preview-table" class="table-wrap" style="margin-bottom: 1rem;"></div>
       <button class="btn btn-primary" onclick="showStep(3)">Looks good, continue</button>
       <button class="btn btn-ghost" onclick="resetApp()">Start over</button>
     </div>
 
+    <!-- Step 3: Configure -->
     <div class="step" id="step-3">
       <h2>Configure task</h2>
-      
+      <p class="subtitle">Select what kind of ML problem to solve</p>
+
       <label class="field-label">Task type:</label>
       <select id="task-select" style="margin-bottom: 1rem;" onchange="toggleTargetField()">
         <option value="classification">Classification</option>
@@ -50,17 +56,35 @@
         <select id="target-select" style="margin-bottom: 1rem;"></select>
       </div>
 
-      <div id="config-error" class="error" style="color: red;"></div>
-      <button class="btn btn-primary" onclick="startTraining()">Train model</button>
+      <div id="config-error" class="msg error" style="display:none;"></div>
+
+      <!--
+        Bug-fix: the original JS used `document.querySelector('#step-3 button')` which
+        grabs whichever button comes first in the DOM — fragile if order changes.
+        Now we use a stable id="train-btn" on exactly the button we want to control.
+      -->
+      <button class="btn btn-primary" id="train-btn" onclick="startTraining()">Train model</button>
       <button class="btn btn-ghost" onclick="showStep(2)">Back</button>
     </div>
 
+    <!-- Step 4: Results -->
     <div class="step" id="step-4">
       <h2>Results</h2>
       <div id="results-content"></div>
-      <button class="btn btn-ghost" onclick="resetApp()" style="margin-top: 1rem;">Start over</button>
-      <button class="btn btn-primary" onclick="saveModel()" style="margin-top: 1rem;">Download Pipeline</button>
 
+      <!--
+        Bug-fix: download errors were silently swallowed in the original code (only
+        console.error). download-error div surfaces them to the user.
+      -->
+      <div id="download-error" class="msg error" style="display:none; margin-top:0.75rem;"></div>
+
+      <button class="btn btn-primary" id="download-btn" onclick="saveModel()"
+              style="margin-top: 1rem;">
+        Download Pipeline
+      </button>
+      <button class="btn btn-ghost" onclick="resetApp()" style="margin-top: 0.5rem;">
+        Start over
+      </button>
     </div>
 
   </div>
