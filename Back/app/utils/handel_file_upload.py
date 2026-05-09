@@ -1,5 +1,3 @@
-
-from fastapi import APIRouter
 from fastapi import APIRouter, UploadFile, File, HTTPException
 import pandas as pd
 import uuid
@@ -30,9 +28,16 @@ async def handle_upload(file: UploadFile = File(...)):
     job_id = str(uuid.uuid4())
     data_storage[job_id] = df
 
+    # BUG-FIX: Clean the preview rows by converting Pandas NaNs to Python None
+    # This prevents the "Out of range float values are not JSON compliant" error.
+    preview_rows = [
+        [None if pd.isna(val) else val for val in row]
+        for row in df.head(5).values.tolist()
+    ]
+
     return {
         "job_id": job_id,
         "columns": df.columns.tolist(),
-        "rows": df.head(5).values.tolist(),
+        "rows": preview_rows,
         "dtypes": df.dtypes.apply(lambda x: x.name).to_dict()
     }
