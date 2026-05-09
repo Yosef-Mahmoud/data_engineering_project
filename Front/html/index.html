@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AutoML</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="Front\css\style.css">
 </head>
+
 <body>
 
   <div class="progress">
@@ -23,8 +25,7 @@
       <h2>Upload your dataset</h2>
       <p class="subtitle">Accepts .csv and .xlsx files</p>
       <form id="upload-form" onsubmit="handleUpload(event)">
-        <input type="file" id="file-input" name="file" accept=".csv,.xlsx,.xls" required
-               style="margin-bottom: 1rem;" />
+        <input type="file" id="file-input" name="file" accept=".csv,.xlsx,.xls" required style="margin-bottom: 1rem;" />
         <div id="upload-error" class="msg error" style="display:none;"></div>
         <button type="submit" class="btn btn-primary" id="upload-btn">Upload</button>
       </form>
@@ -78,8 +79,7 @@
       -->
       <div id="download-error" class="msg error" style="display:none; margin-top:0.75rem;"></div>
 
-      <button class="btn btn-primary" id="download-btn" onclick="saveModel()"
-              style="margin-top: 1rem;">
+      <button class="btn btn-primary" id="download-btn" onclick="saveModel()" style="margin-top: 1rem;">
         Download Pipeline
       </button>
       <button class="btn btn-ghost" onclick="resetApp()" style="margin-top: 0.5rem;">
@@ -91,4 +91,5 @@
 
   <script src="../js/script.js"></script>
 </body>
+
 </html>
